@@ -1,0 +1,104 @@
+
+
+def display_menu(self):
+   print("Welcome to the Vending Machine")
+   for item_code, item in self.items.items():
+      print(f"{item_code}: {item.name} - ${item.price} (Stock: {item.stock})")
+
+def purchase_item(self, item_code, amount_inserted):
+    item = self.items.get(item_code)
+    if item and item.stock > 0:
+        if amount_inserted >= item.price:
+            item.stock -= 1
+            change = amount_inserted - item.price
+            print(f"Dispensing {item.name}. Your change is ${change:.2f}.")
+        else:
+            print("Insufficient funds. Please insert more money.")
+    else:
+        print("Item not available or out of stock.")      
+
+try:
+    amount = float(input("Please insert money: "))
+except ValueError:
+    print("Invalid input. Please enter a numeric value.")
+    
+def suggest_items(self, purchased_item):
+    if purchased_item.name == "Coffee":
+        print("How about some biscuits to go with your coffee?")    
+       
+class Item:
+    def __init__(self, name, price, stock):
+        """Initialize an item with a name, price, and stock quantity."""
+        self.name = name
+        self.price = price
+        self.stock = stock
+
+
+class VendingMachine:
+    def __init__(self):
+        """Initialize the vending machine with a set of items."""
+        self.items = {
+            'A1': Item('Coke', 1.50, 5),
+            'A2': Item('Pepsi', 1.50, 3),
+            'B1': Item('Snickers', 1.00, 10),
+            'B2': Item('Chips', 1.25, 0),  # Out of stock
+            'C1': Item('Coffee', 2.00, 2)
+        }
+
+    def display_menu(self):
+        """Display the available items in the vending machine."""
+        print("Welcome to my mini Vending Machine!")
+        for item_code, item in self.items.items():
+            print(f"{item_code}: {item.name} - ${item.price:.2f} (Stock: {item.stock})")
+
+    def purchase_item(self, item_code, amount_inserted):
+        """Process the purchase of an item."""
+        item = self.items.get(item_code)
+        if item is None:
+            print("Invalid selection. Please choose a valid item code.")
+            return
+
+        if item.stock <= 0:
+            print(f"Sorry, {item.name} is out of stock.")
+            return
+
+        if amount_inserted < item.price:
+            print("Insufficient funds. Please insert more money.")
+            return
+
+        # Process the transaction
+        item.stock -= 1
+        change = amount_inserted - item.price
+        print(f"Dispensing {item.name}. Your change is ${change:.2f}.")
+        self.suggest_items(item)
+
+    def suggest_items(self, purchased_item):
+        """Suggest additional items based on the purchased item."""
+        if purchased_item.name == "Coffee":
+            print("How about some biscuits to go with your coffee?")
+        elif purchased_item.name == "Coke" or purchased_item.name == "Pepsi":
+            print("You might also like some chips or a snack!")
+        # Additional suggestions can be added here
+
+    def run(self):
+        """Run the vending machine application."""
+        while True:
+            self.display_menu()
+            user_input = input("Enter the item code to purchase or 'exit' to quit: ").strip().upper()
+            if user_input == 'EXIT':
+                print("Thank you for using my Vending Machine. Goodbye and Have a Great Day!")
+                break
+
+            try:
+                amount = float(input("Please insert money: "))
+                self.purchase_item(user_input, amount)
+            except ValueError:
+                print("Invalid input. Please enter a numeric value.")
+
+
+if __name__ == "__main__":
+    vending_machine = VendingMachine()
+    vending_machine.run()        
+            
+            
+            
